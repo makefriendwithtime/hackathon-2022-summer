@@ -24,6 +24,7 @@ interface IFaucet{
   function getPendingRedeemAmount() external view returns(uint);
   function bstate() external view returns (bool);
   function nimbusId() external view returns (bytes32);
+  function faucetType() external view returns (bool);
 }
 
 interface IGovernance{
@@ -300,6 +301,7 @@ contract Pool is ERC20{
   ) public lock{
     uint256 marginAmount = getMarginCount(_stkAmount);
     IFaucet collator = IFaucet(_collatorAddr);
+    require(collator.faucetType(),'not collator!');
     setFaucetInfo(collator,_period,_stkAmount.sub(Igovern.authorAmount()),marginAmount,Igovern.authorAmount());
     emit AddFaucet(true,msg.sender,_collatorAddr,_period,_stkAmount);
   }
@@ -331,6 +333,7 @@ contract Pool is ERC20{
   ) public lock{
     uint256 marginAmount = getMarginCount(_stkAmount);
     IFaucet delegator = IFaucet(_delegatorAddr);
+    require(!delegator.faucetType(),'not delegator!');
     setFaucetInfo(delegator,_period,_stkAmount,marginAmount,0);
     emit AddFaucet(false,msg.sender,_delegatorAddr,_period,_stkAmount);
   }

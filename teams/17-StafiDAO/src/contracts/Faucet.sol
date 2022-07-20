@@ -334,12 +334,12 @@ contract Faucet{
           delegatorReward(reward);
         }
       }
-      recordDate = 0;
-      punishCount = 0;
       if(leaseInfo.marginAmount > 0){
         Iairdrop = IAirdrop(Igovern.retTokenAddr());
         Iairdrop.unlockLeaseMargin(leaseInfo.redeemAddr,leaseInfo.leaseDate,leaseInfo.marginAmount);
       }
+      recordDate = 0;
+      punishCount = 0;
     }
     emit RedeemState(true);
   }
