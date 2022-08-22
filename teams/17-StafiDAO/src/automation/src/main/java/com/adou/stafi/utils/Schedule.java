@@ -55,19 +55,14 @@ public class Schedule {
             if (!list.isEmpty()) {
                 for (Object obj : list) {
                     String faucetAddr = String.valueOf(obj);
-                    if (search.isExecuteRedeemStake(faucetAddr).sendAsync().get()) {
-                        Boolean result = faucetService.executeRedeemStake(faucetAddr);
-                        if (result) {
-                            if (search.isScheduleRedeemStake(faucetAddr).sendAsync().get())
-                                faucetService.scheduleRedeemStake(faucetAddr);
-                            if (search.isZeroIncomePunish(faucetAddr).sendAsync().get())
-                                faucetService.zeroIncomePunish(faucetAddr);
-                            if (search.isSendReward(faucetAddr).sendAsync().get())
-                                faucetService.sendReward(faucetAddr);
-                            if (search.isRecordRewardInfo(faucetAddr).sendAsync().get())
-                                faucetService.recordRewardInfo(faucetAddr);
-                        }
-                    }
+                    if (search.isExecuteRedeemStake(faucetAddr).sendAsync().get())
+                        faucetService.executeRedeemStake(faucetAddr);
+                    if (search.isSendReward(faucetAddr).sendAsync().get())
+                        faucetService.sendReward(faucetAddr);
+                    if (search.isZeroIncomePunish(faucetAddr).sendAsync().get())
+                        faucetService.zeroIncomePunish(faucetAddr);
+                    if (search.isScheduleRedeemStake(faucetAddr).sendAsync().get())
+                        faucetService.scheduleRedeemStake(faucetAddr);
                 }
             }
         } catch (Exception e) {

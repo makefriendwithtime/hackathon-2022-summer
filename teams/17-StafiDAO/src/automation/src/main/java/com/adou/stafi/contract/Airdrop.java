@@ -80,6 +80,10 @@ public class Airdrop extends ContractR {
 
     public static final String FUNC_NAME = "name";
 
+    public static final String FUNC_OWNER = "owner";
+
+    public static final String FUNC_SETGOVERNADDR = "setGovernAddr";
+
     public static final String FUNC_STARTDROP = "startDrop";
 
     public static final String FUNC_SYMBOL = "symbol";
@@ -121,9 +125,9 @@ public class Airdrop extends ContractR {
     }
 
     public List<ApprovalEventResponse> getApprovalEvents(TransactionReceipt transactionReceipt) {
-        List<EventValuesWithLog> valueList = extractEventParametersWithLog(APPROVAL_EVENT, transactionReceipt);
+        List<ContractR.EventValuesWithLog> valueList = extractEventParametersWithLog(APPROVAL_EVENT, transactionReceipt);
         ArrayList<ApprovalEventResponse> responses = new ArrayList<ApprovalEventResponse>(valueList.size());
-        for (EventValuesWithLog eventValues : valueList) {
+        for (ContractR.EventValuesWithLog eventValues : valueList) {
             ApprovalEventResponse typedResponse = new ApprovalEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.owner = (String) eventValues.getIndexedValues().get(0).getValue();
@@ -138,7 +142,7 @@ public class Airdrop extends ContractR {
         return web3j.ethLogFlowable(filter).map(new Function<Log, ApprovalEventResponse>() {
             @Override
             public ApprovalEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(APPROVAL_EVENT, log);
+                ContractR.EventValuesWithLog eventValues = extractEventParametersWithLog(APPROVAL_EVENT, log);
                 ApprovalEventResponse typedResponse = new ApprovalEventResponse();
                 typedResponse.log = log;
                 typedResponse.owner = (String) eventValues.getIndexedValues().get(0).getValue();
@@ -156,9 +160,9 @@ public class Airdrop extends ContractR {
     }
 
     public List<TransferEventResponse> getTransferEvents(TransactionReceipt transactionReceipt) {
-        List<EventValuesWithLog> valueList = extractEventParametersWithLog(TRANSFER_EVENT, transactionReceipt);
+        List<ContractR.EventValuesWithLog> valueList = extractEventParametersWithLog(TRANSFER_EVENT, transactionReceipt);
         ArrayList<TransferEventResponse> responses = new ArrayList<TransferEventResponse>(valueList.size());
-        for (EventValuesWithLog eventValues : valueList) {
+        for (ContractR.EventValuesWithLog eventValues : valueList) {
             TransferEventResponse typedResponse = new TransferEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.from = (String) eventValues.getIndexedValues().get(0).getValue();
@@ -173,7 +177,7 @@ public class Airdrop extends ContractR {
         return web3j.ethLogFlowable(filter).map(new Function<Log, TransferEventResponse>() {
             @Override
             public TransferEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(TRANSFER_EVENT, log);
+                ContractR.EventValuesWithLog eventValues = extractEventParametersWithLog(TRANSFER_EVENT, log);
                 TransferEventResponse typedResponse = new TransferEventResponse();
                 typedResponse.log = log;
                 typedResponse.from = (String) eventValues.getIndexedValues().get(0).getValue();
@@ -275,14 +279,15 @@ public class Airdrop extends ContractR {
         return executeRemoteCallTransaction(function);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> initialize(String _governAddr, String name_, String symbol_, String _account, BigInteger _amount) {
+    public RemoteFunctionCall<TransactionReceipt> initialize(String _governAddr, String name_, String symbol_, String _account, BigInteger _amount, String _owner) {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
                 FUNC_INITIALIZE,
                 Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(160, _governAddr),
                         new org.web3j.abi.datatypes.Utf8String(name_),
                         new org.web3j.abi.datatypes.Utf8String(symbol_),
                         new org.web3j.abi.datatypes.Address(160, _account),
-                        new org.web3j.abi.datatypes.generated.Uint256(_amount)),
+                        new org.web3j.abi.datatypes.generated.Uint256(_amount),
+                        new org.web3j.abi.datatypes.Address(160, _owner)),
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
     }
@@ -312,6 +317,22 @@ public class Airdrop extends ContractR {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
                 FUNC_NAME,
                 Arrays.<Type>asList(),
+                Collections.<TypeReference<?>>emptyList());
+        return executeRemoteCallTransaction(function);
+    }
+
+    public RemoteFunctionCall<TransactionReceipt> owner() {
+        final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
+                FUNC_OWNER,
+                Arrays.<Type>asList(),
+                Collections.<TypeReference<?>>emptyList());
+        return executeRemoteCallTransaction(function);
+    }
+
+    public RemoteFunctionCall<TransactionReceipt> setGovernAddr(String _governAddr) {
+        final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
+                FUNC_SETGOVERNADDR,
+                Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(160, _governAddr)),
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
     }

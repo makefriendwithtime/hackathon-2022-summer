@@ -69,23 +69,19 @@ public class Faucet extends ContractR {
 
     public static final String FUNC_COLLATORADDR = "collatorAddr";
 
-    public static final String FUNC_DAYREWARDINFO = "dayRewardInfo";
-
     public static final String FUNC_EXECUTEREDEEMSTAKE = "executeRedeemStake";
+
+    public static final String FUNC_FAUCETOWNER = "faucetOwner";
 
     public static final String FUNC_FAUCETTYPE = "faucetType";
 
-    public static final String FUNC_GETRECORDREWARDDATE = "getRecordRewardDate";
+    public static final String FUNC_GETPENDINGREDEEMAMOUNT = "getPendingRedeemAmount";
 
-    public static final String FUNC_GETREDEEMDATE = "getRedeemDate";
+    public static final String FUNC_GETPENDINGREDEEMDATE = "getPendingRedeemDate";
 
     public static final String FUNC_INITIALIZE = "initialize";
 
-    public static final String FUNC_LEASEDATES = "leaseDates";
-
-    public static final String FUNC_LEASEINFOS = "leaseInfos";
-
-    public static final String FUNC_LEASETOTAL = "leaseTotal";
+    public static final String FUNC_LEASEINFO = "leaseInfo";
 
     public static final String FUNC_LEAVENUMBER = "leaveNumber";
 
@@ -95,11 +91,15 @@ public class Faucet extends ContractR {
 
     public static final String FUNC_PUNISHCOUNT = "punishCount";
 
-    public static final String FUNC_RECORDREWARDINFO = "recordRewardInfo";
+    public static final String FUNC_RECORDDATE = "recordDate";
 
     public static final String FUNC_SCHEDULEREDEEMSTAKE = "scheduleRedeemStake";
 
+    public static final String FUNC_SCHEDULEREDEEMSTAKEMANUAL = "scheduleRedeemStakeManual";
+
     public static final String FUNC_SENDREWARD = "sendReward";
+
+    public static final String FUNC_SETGOVERNADDR = "setGovernAddr";
 
     public static final String FUNC_SETLEASEINFO = "setLeaseInfo";
 
@@ -150,9 +150,9 @@ public class Faucet extends ContractR {
     }
 
     public List<AssociationEventResponse> getAssociationEvents(TransactionReceipt transactionReceipt) {
-        List<EventValuesWithLog> valueList = extractEventParametersWithLog(ASSOCIATION_EVENT, transactionReceipt);
+        List<ContractR.EventValuesWithLog> valueList = extractEventParametersWithLog(ASSOCIATION_EVENT, transactionReceipt);
         ArrayList<AssociationEventResponse> responses = new ArrayList<AssociationEventResponse>(valueList.size());
-        for (EventValuesWithLog eventValues : valueList) {
+        for (ContractR.EventValuesWithLog eventValues : valueList) {
             AssociationEventResponse typedResponse = new AssociationEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse._nimbusId = (byte[]) eventValues.getNonIndexedValues().get(0).getValue();
@@ -165,7 +165,7 @@ public class Faucet extends ContractR {
         return web3j.ethLogFlowable(filter).map(new Function<Log, AssociationEventResponse>() {
             @Override
             public AssociationEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(ASSOCIATION_EVENT, log);
+                ContractR.EventValuesWithLog eventValues = extractEventParametersWithLog(ASSOCIATION_EVENT, log);
                 AssociationEventResponse typedResponse = new AssociationEventResponse();
                 typedResponse.log = log;
                 typedResponse._nimbusId = (byte[]) eventValues.getNonIndexedValues().get(0).getValue();
@@ -181,9 +181,9 @@ public class Faucet extends ContractR {
     }
 
     public List<LeaveRedeemEventResponse> getLeaveRedeemEvents(TransactionReceipt transactionReceipt) {
-        List<EventValuesWithLog> valueList = extractEventParametersWithLog(LEAVEREDEEM_EVENT, transactionReceipt);
+        List<ContractR.EventValuesWithLog> valueList = extractEventParametersWithLog(LEAVEREDEEM_EVENT, transactionReceipt);
         ArrayList<LeaveRedeemEventResponse> responses = new ArrayList<LeaveRedeemEventResponse>(valueList.size());
-        for (EventValuesWithLog eventValues : valueList) {
+        for (ContractR.EventValuesWithLog eventValues : valueList) {
             LeaveRedeemEventResponse typedResponse = new LeaveRedeemEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse._leaveNumber = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
@@ -196,7 +196,7 @@ public class Faucet extends ContractR {
         return web3j.ethLogFlowable(filter).map(new Function<Log, LeaveRedeemEventResponse>() {
             @Override
             public LeaveRedeemEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(LEAVEREDEEM_EVENT, log);
+                ContractR.EventValuesWithLog eventValues = extractEventParametersWithLog(LEAVEREDEEM_EVENT, log);
                 LeaveRedeemEventResponse typedResponse = new LeaveRedeemEventResponse();
                 typedResponse.log = log;
                 typedResponse._leaveNumber = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
@@ -212,9 +212,9 @@ public class Faucet extends ContractR {
     }
 
     public List<RecordRewardInfoEventResponse> getRecordRewardInfoEvents(TransactionReceipt transactionReceipt) {
-        List<EventValuesWithLog> valueList = extractEventParametersWithLog(RECORDREWARDINFO_EVENT, transactionReceipt);
+        List<ContractR.EventValuesWithLog> valueList = extractEventParametersWithLog(RECORDREWARDINFO_EVENT, transactionReceipt);
         ArrayList<RecordRewardInfoEventResponse> responses = new ArrayList<RecordRewardInfoEventResponse>(valueList.size());
-        for (EventValuesWithLog eventValues : valueList) {
+        for (ContractR.EventValuesWithLog eventValues : valueList) {
             RecordRewardInfoEventResponse typedResponse = new RecordRewardInfoEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse._rdDate = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
@@ -228,7 +228,7 @@ public class Faucet extends ContractR {
         return web3j.ethLogFlowable(filter).map(new Function<Log, RecordRewardInfoEventResponse>() {
             @Override
             public RecordRewardInfoEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(RECORDREWARDINFO_EVENT, log);
+                ContractR.EventValuesWithLog eventValues = extractEventParametersWithLog(RECORDREWARDINFO_EVENT, log);
                 RecordRewardInfoEventResponse typedResponse = new RecordRewardInfoEventResponse();
                 typedResponse.log = log;
                 typedResponse._rdDate = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
@@ -245,9 +245,9 @@ public class Faucet extends ContractR {
     }
 
     public List<RedeemStateEventResponse> getRedeemStateEvents(TransactionReceipt transactionReceipt) {
-        List<EventValuesWithLog> valueList = extractEventParametersWithLog(REDEEMSTATE_EVENT, transactionReceipt);
+        List<ContractR.EventValuesWithLog> valueList = extractEventParametersWithLog(REDEEMSTATE_EVENT, transactionReceipt);
         ArrayList<RedeemStateEventResponse> responses = new ArrayList<RedeemStateEventResponse>(valueList.size());
-        for (EventValuesWithLog eventValues : valueList) {
+        for (ContractR.EventValuesWithLog eventValues : valueList) {
             RedeemStateEventResponse typedResponse = new RedeemStateEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse._success = (Boolean) eventValues.getNonIndexedValues().get(0).getValue();
@@ -260,7 +260,7 @@ public class Faucet extends ContractR {
         return web3j.ethLogFlowable(filter).map(new Function<Log, RedeemStateEventResponse>() {
             @Override
             public RedeemStateEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(REDEEMSTATE_EVENT, log);
+                ContractR.EventValuesWithLog eventValues = extractEventParametersWithLog(REDEEMSTATE_EVENT, log);
                 RedeemStateEventResponse typedResponse = new RedeemStateEventResponse();
                 typedResponse.log = log;
                 typedResponse._success = (Boolean) eventValues.getNonIndexedValues().get(0).getValue();
@@ -276,9 +276,9 @@ public class Faucet extends ContractR {
     }
 
     public List<SendRewardEventResponse> getSendRewardEvents(TransactionReceipt transactionReceipt) {
-        List<EventValuesWithLog> valueList = extractEventParametersWithLog(SENDREWARD_EVENT, transactionReceipt);
+        List<ContractR.EventValuesWithLog> valueList = extractEventParametersWithLog(SENDREWARD_EVENT, transactionReceipt);
         ArrayList<SendRewardEventResponse> responses = new ArrayList<SendRewardEventResponse>(valueList.size());
-        for (EventValuesWithLog eventValues : valueList) {
+        for (ContractR.EventValuesWithLog eventValues : valueList) {
             SendRewardEventResponse typedResponse = new SendRewardEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse._reward = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
@@ -291,7 +291,7 @@ public class Faucet extends ContractR {
         return web3j.ethLogFlowable(filter).map(new Function<Log, SendRewardEventResponse>() {
             @Override
             public SendRewardEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(SENDREWARD_EVENT, log);
+                ContractR.EventValuesWithLog eventValues = extractEventParametersWithLog(SENDREWARD_EVENT, log);
                 SendRewardEventResponse typedResponse = new SendRewardEventResponse();
                 typedResponse.log = log;
                 typedResponse._reward = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
@@ -362,17 +362,17 @@ public class Faucet extends ContractR {
         return executeRemoteCallTransaction(function);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> dayRewardInfo() {
+    public RemoteFunctionCall<TransactionReceipt> executeRedeemStake() {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
-                FUNC_DAYREWARDINFO,
+                FUNC_EXECUTEREDEEMSTAKE,
                 Arrays.<Type>asList(),
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> executeRedeemStake() {
+    public RemoteFunctionCall<TransactionReceipt> faucetOwner() {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
-                FUNC_EXECUTEREDEEMSTAKE,
+                FUNC_FAUCETOWNER,
                 Arrays.<Type>asList(),
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
@@ -386,53 +386,38 @@ public class Faucet extends ContractR {
         return executeRemoteCallTransaction(function);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> getRecordRewardDate() {
+    public RemoteFunctionCall<TransactionReceipt> getPendingRedeemAmount() {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
-                FUNC_GETRECORDREWARDDATE,
+                FUNC_GETPENDINGREDEEMAMOUNT,
                 Arrays.<Type>asList(),
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> getRedeemDate() {
+    public RemoteFunctionCall<TransactionReceipt> getPendingRedeemDate() {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
-                FUNC_GETREDEEMDATE,
+                FUNC_GETPENDINGREDEEMDATE,
                 Arrays.<Type>asList(),
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> initialize(String _governAddr, String _collatorAddr, String _techAddr, String _owner, Boolean _faucetType) {
+    public RemoteFunctionCall<TransactionReceipt> initialize(String _governAddr, String _collatorAddr, String _techAddr, String _faucetOwner, Boolean _faucetType, String _owner) {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
                 FUNC_INITIALIZE,
                 Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(160, _governAddr),
                         new org.web3j.abi.datatypes.Address(160, _collatorAddr),
                         new org.web3j.abi.datatypes.Address(160, _techAddr),
-                        new org.web3j.abi.datatypes.Address(160, _owner),
-                        new org.web3j.abi.datatypes.Bool(_faucetType)),
+                        new org.web3j.abi.datatypes.Address(160, _faucetOwner),
+                        new org.web3j.abi.datatypes.Bool(_faucetType),
+                        new org.web3j.abi.datatypes.Address(160, _owner)),
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> leaseDates(BigInteger param0) {
+    public RemoteFunctionCall<TransactionReceipt> leaseInfo() {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
-                FUNC_LEASEDATES,
-                Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint256(param0)),
-                Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function);
-    }
-
-    public RemoteFunctionCall<TransactionReceipt> leaseInfos(BigInteger param0) {
-        final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
-                FUNC_LEASEINFOS,
-                Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint256(param0)),
-                Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function);
-    }
-
-    public RemoteFunctionCall<TransactionReceipt> leaseTotal() {
-        final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
-                FUNC_LEASETOTAL,
+                FUNC_LEASEINFO,
                 Arrays.<Type>asList(),
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
@@ -470,9 +455,9 @@ public class Faucet extends ContractR {
         return executeRemoteCallTransaction(function);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> recordRewardInfo() {
+    public RemoteFunctionCall<TransactionReceipt> recordDate() {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
-                FUNC_RECORDREWARDINFO,
+                FUNC_RECORDDATE,
                 Arrays.<Type>asList(),
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
@@ -486,6 +471,14 @@ public class Faucet extends ContractR {
         return executeRemoteCallTransaction(function);
     }
 
+    public RemoteFunctionCall<TransactionReceipt> scheduleRedeemStakeManual(BigInteger _lessAmount) {
+        final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
+                FUNC_SCHEDULEREDEEMSTAKEMANUAL,
+                Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint256(_lessAmount)),
+                Collections.<TypeReference<?>>emptyList());
+        return executeRemoteCallTransaction(function);
+    }
+
     public RemoteFunctionCall<TransactionReceipt> sendReward() {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
                 FUNC_SENDREWARD,
@@ -494,10 +487,18 @@ public class Faucet extends ContractR {
         return executeRemoteCallTransaction(function);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> setLeaseInfo(String _reddeemAddr, BigInteger _leaseDate, BigInteger _period, BigInteger _amount, BigInteger _marginAmount) {
+    public RemoteFunctionCall<TransactionReceipt> setGovernAddr(String _governAddr) {
+        final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
+                FUNC_SETGOVERNADDR,
+                Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(160, _governAddr)),
+                Collections.<TypeReference<?>>emptyList());
+        return executeRemoteCallTransaction(function);
+    }
+
+    public RemoteFunctionCall<TransactionReceipt> setLeaseInfo(String _redeemAddr, BigInteger _leaseDate, BigInteger _period, BigInteger _amount, BigInteger _marginAmount) {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
                 FUNC_SETLEASEINFO,
-                Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(160, _reddeemAddr),
+                Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(160, _redeemAddr),
                         new org.web3j.abi.datatypes.generated.Uint256(_leaseDate),
                         new org.web3j.abi.datatypes.generated.Uint256(_period),
                         new org.web3j.abi.datatypes.generated.Uint256(_amount),

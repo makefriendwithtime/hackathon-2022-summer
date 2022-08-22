@@ -2,4 +2,4 @@
 
 // Auto-generated , DO NOT EDIT
 
-export {SendValue} from "./SendValue"
+export {AssignReward} from "./AssignReward"

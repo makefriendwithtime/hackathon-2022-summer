@@ -1,18 +1,21 @@
-import { Transaction } from "../types";
+import { Droping } from "../types";
 import { FrontierEvmEvent } from '@subql/contract-processors/dist/frontierEvm';
 
 import { BigNumber } from "ethers";
 
 // Setup types from ABI
-type TransferEventArgs = [string, string, BigNumber] & { from: string; to: string; value: BigNumber; };
+type DropingEventArgs = [string, BigNumber] & { dropAddrs: string[]; dropAmounts: BigNumber[]; };
 
-export async function handleAirdropEvmEvent(event: FrontierEvmEvent<TransferEventArgs>): Promise<void> {
-    const transaction = new Transaction(event.transactionHash);
+export async function handleAirdropEvmEvent(event: FrontierEvmEvent<DropingEventArgs>): Promise<void> {
 
-    transaction.value = event.args.value.toBigInt();
-    transaction.from = event.args.from;
-    transaction.to = event.args.to;
-    transaction.contractAddress = event.address;
+    for(let i = 0;i < event.args.dropAddrs.length;i++) {
+        const droping = new Droping(event.transactionHash + i);
+        droping.transactionHash = event.transactionHash;
+        droping.value = event.args.dropAmounts[i].toBigInt();
+        droping.from = '0x0000000000000000000000000000000000000000';
+        droping.to = event.args.dropAddrs[i];
+        droping.contractAddress = event.address;
+        await droping.save();
+    }
 
-    await transaction.save();
 }

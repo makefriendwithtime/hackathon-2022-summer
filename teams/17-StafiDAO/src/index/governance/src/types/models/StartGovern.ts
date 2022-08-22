@@ -32,6 +32,8 @@ export class StartGovern implements Entity {
 
     public totalVoter?: bigint;
 
+    public totalMember?: bigint;
+
     public contractAddress: string;
 
 

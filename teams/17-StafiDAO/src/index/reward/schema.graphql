@@ -1,6 +1,8 @@
-type SendValue @entity {
+type AssignReward @entity {
 
-  id: ID! #Transaction hash
+  id: ID! #Transaction hash + order
+
+  transactionHash: String!
 
   recipient: String!
 

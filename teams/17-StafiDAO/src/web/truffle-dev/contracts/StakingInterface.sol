@@ -34,9 +34,9 @@ interface ParachainStaking {
     /// @param candidate the address that we want to confirm is a part of the active set
     /// @return A boolean confirming whether the address is a part of the active set
     function is_selected_candidate(address candidate)
-    external
-    view
-    returns (bool);
+        external
+        view
+        returns (bool);
 
     /// @dev Total points awarded to all collators in a particular round
     /// Selector: 9799b4e7
@@ -66,18 +66,18 @@ interface ParachainStaking {
     /// @param collator The address for which we are querying the nomination count
     /// @return The number of nominations backing the collator
     function collator_nomination_count(address collator)
-    external
-    view
-    returns (uint256);
+        external
+        view
+        returns (uint256);
 
     /// @dev Get the CandidateDelegationCount weight hint
     /// Selector: 815b796c
     /// @param candidate The address for which we are querying the nomination count
     /// @return The number of nominations backing the collator
     function candidate_delegation_count(address candidate)
-    external
-    view
-    returns (uint256);
+        external
+        view
+        returns (uint256);
 
     /// DEPRECATED, replaced by delegator_delegation_count
     /// @dev Get the NominatorNominationCount weight hint
@@ -85,18 +85,18 @@ interface ParachainStaking {
     /// @param nominator The address for which we are querying the nomination count
     /// @return The number of nominations made by the nominator
     function nominator_nomination_count(address nominator)
-    external
-    view
-    returns (uint256);
+        external
+        view
+        returns (uint256);
 
     /// @dev Get the DelegatorDelegationCount weight hint
     /// Selector: fbc51bca
     /// @param delegator The address for which we are querying the delegation count
     /// @return The number of delegations made by the delegator
     function delegator_delegation_count(address delegator)
-    external
-    view
-    returns (uint256);
+        external
+        view
+        returns (uint256);
 
     /// @dev Get the selected candidates for the current round
     /// Selector: 0x89f47a21
@@ -107,38 +107,11 @@ interface ParachainStaking {
     /// Selector: 192e1db3
     /// @param delegator the delegator that made the delegation
     /// @param candidate the candidate for which the delegation was made
-    /// @return Whether a pending request exists for such delegation
+    /// @return Whether a pending request exist for such delegation
     function delegation_request_is_pending(address delegator, address candidate)
-    external
-    view
-    returns (bool);
-
-    /// @dev Whether there exists a pending exit for delegator
-    /// Selector: dc3ec64b
-    /// @param delegator the delegator that made the exit request
-    /// @return Whether a pending exit exists for delegator
-    function delegator_exit_is_pending(address delegator)
-    external
-    view
-    returns (bool);
-
-    /// @dev Whether there exists a pending exit for candidate
-    /// Selector: eb613b8a
-    /// @param candidate the candidate for which the exit request was made
-    /// @return Whether a pending request exists for such delegation
-    function candidate_exit_is_pending(address candidate)
-    external
-    view
-    returns (bool);
-
-    /// @dev Whether there exists a pending bond less request made by a candidate
-    /// Selector: 26ab05fb
-    /// @param candidate the candidate which made the request
-    /// @return Whether a pending bond less request was made by the candidate
-    function candidate_request_is_pending(address candidate)
-    external
-    view
-    returns (bool);
+        external
+        view
+        returns (bool);
 
     /// @dev Join the set of collator candidates
     /// Selector: 0a1bff60
@@ -295,14 +268,14 @@ interface ParachainStaking {
     /// @param candidate The address of the collator candidate for which delegation shall decrease
     /// @param less The amount by which the delegation is decreased (upon execution)
     function schedule_delegator_bond_less(address candidate, uint256 less)
-    external;
+        external;
 
     /// @dev Execute pending delegation request (if exists && is due)
     /// Selector: e42366a6
     /// @param delegator The address of the delegator
     /// @param candidate The address of the candidate
     function execute_delegation_request(address delegator, address candidate)
-    external;
+        external;
 
     /// @dev Cancel pending delegation request (already made in support of input by caller)
     /// Selector: 7284cf50

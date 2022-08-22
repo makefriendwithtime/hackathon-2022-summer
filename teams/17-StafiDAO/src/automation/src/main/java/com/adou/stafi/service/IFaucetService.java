@@ -9,6 +9,4 @@ public interface IFaucetService {
     void zeroIncomePunish(String faucetAddr);
 
     void sendReward(String faucetAddr);
-
-    void recordRewardInfo(String faucetAddr);
 }

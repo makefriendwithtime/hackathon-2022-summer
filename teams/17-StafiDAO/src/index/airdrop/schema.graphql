@@ -1,6 +1,8 @@
-type Transaction @entity {
+type Droping @entity {
 
-  id: ID! # Transaction hash
+  id: ID! # Droping hash + order
+
+  transactionHash: String!
 
   value: BigInt!
 

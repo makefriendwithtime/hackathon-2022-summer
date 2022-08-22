@@ -16,12 +16,12 @@ network:
     file: ./dist/chaintypes.js
 dataSources:
   - kind: substrate/FrontierEvm
-    startBlock: 2129700
+    startBlock: 2533359
     processor:
       file: './node_modules/@subql/contract-processors/dist/frontierEvm.js'
       options:
         abi: governance
-        address: '0x3F8bc5F0D5c92820d8aF60D98e63efDef55804D3'
+        address: '0x0edC4F24740c4B7433739163433768B21b7d328B'
     assets:
       governance:
         file: './abi.governance.json'
@@ -32,7 +32,7 @@ dataSources:
           kind: substrate/FrontierEvmEvent
           filter:
             topics:
-              - StartGovern(address indexed creator,uint256 number,uint256 governType,uint256 startDate,uint256 endDate,uint256 uintValue,string strValue,uint256 totalVoter)
+              - StartGovern(address indexed creator,uint256 number,uint256 governType,uint256 startDate,uint256 endDate,uint256 uintValue,string strValue,uint256 totalVoter,uint256 totalMember)
         - handler: handleVoteEvmEvent
           kind: substrate/FrontierEvmEvent
           filter:
