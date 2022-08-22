@@ -347,6 +347,7 @@ contract Faucet{
         return address(this).balance;
     }
 
+    //获取当前赎回日期
     function getPendingRedeemDate() public view returns(uint){
         if(leaseInfo.leaseDate.add(leaseInfo.period * Igovern.dayLen()) <= block.timestamp.div(24 * 60 * 60)){
             return leaseInfo.leaseDate;
