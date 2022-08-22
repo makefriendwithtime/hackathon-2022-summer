@@ -8,7 +8,7 @@
 ###Current pain points
     Official staking is not flexible and not liquid, and could not generate extra yields for delegators
     Collators should have a large reserve to keep themselves in the active set  low capital efficiency
-    Technically capable, non-whale community contributors are impossible to be a collator
+    Technically capable, non-whale community contributors are impossible to be a collator.
 
 ###Project introduction
     Establish a highly sticky DAO community, provide continuous and efficient collateral for pos public chain nodes, and provide community users with more pledge income and higher liquidity.
